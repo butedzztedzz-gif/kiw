@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Untuk Kamu</title>
+<style>
+body{
+  margin:0;
+  font-family:'Georgia',serif;
+  color:white;
+  overflow:hidden;
+  height:100vh;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  position:relative;
+}
+body::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background: linear-gradient(135deg, rgba(255,182,193,0.35), rgba(221,160,221,0.25), rgba(138,43,226,0.25));
+  pointer-events:none;
+}
+.page{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:30px;
+  box-sizing:border-box;
+  transition: all 0.8s ease;
+}
+.page.active{display:flex; opacity:1;}
+.kolom{
+  display:block;
+  background:rgba(0,0,0,0.45);
+  padding:20px;
+  border-radius:15px;
+  margin:10px 0;
+  max-width:380px;
+  text-align:center;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+h1,h2,p{text-shadow:0 2px 15px rgba(0,0,0,0.5);}
+button{
+  padding:12px 28px;
+  font-size:16px;
+  border:none;
+  border-radius:25px;
+  margin-top:25px;
+  cursor:pointer;
+  background:white;
+  color:#2e3c72;
+  font-weight:bold;
+  transition:0.3s;
+}
+button:hover{transform:scale(1.05);}
+video{
+  width:90%;
+  max-width:380px;
+  border-radius:15px;
+  margin-top:20px;
+}
+/* Envelope halaman 5 */
+.envelope{
+  width:200px;
+  height:130px;
+  background:white;
+  border-radius:10px;
+  position:relative;
+  cursor:pointer;
+  margin-top:20px;
+  overflow:hidden;
+  transition: transform 0.7s ease, opacity 0.7s ease;
+}
+.envelope:before{
+  content:"❤";
+  position:absolute;
+  font-size:36px;
+  color:#ff4b6e;
+  top:40px;
+  left:82px;
+}
+/* Flower & heart falling */
+.flower, .heart{
+  position:absolute;
+  top:-20px;
+  font-size:22px;
+  animation:fall 5s linear infinite;
+  pointer-events:none;
+}
+.flower{color:#ff69b4;}
+.heart{color:#da70d6;}
+@keyframes fall{
+  0%{transform:translateY(-20px);}
+  100%{transform:translateY(110vh);}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="https://orangefreesounds.com/wp-content/uploads/2023/02/Romantic-background-music-intro.mp3" type="audio/mp3">
+</audio>
+
+<!-- Halaman 0: Tombol Play Musik -->
+<div class="page active">
+  <div class="kolom">
+    <h1>Ada sesuatu yang pengen aku kasih liat ke kamu</h1>
+    <p>Semoga kamu suka</p>
+    <button onclick="startMusic()">Mulai Musik & Lanjutkan</button>
+  </div>
+</div>
+
+<!-- Halaman 2 -->
+<div class="page">
+  <div class="kolom">
+    <h2>Ngga nyangka ya kita udah sejauh ini</h2>
+    <p>Dari yang awalnya kaya begini.</p>
+    <video controls>
+      <source src="video1.mp4">
+    </video>
+    <button onclick="nextPage()">Lanjutkan</button>
+  </div>
+</div>
+
+<!-- Halaman 3 -->
+<div class="page">
+  <div class="kolom">
+    <h2>Dari yang awalnya gitu, dan sampe seperti sekarang</h2>
+    <p>Banyak kenangan yang kita lewati bersama.</p>
+    <video controls>
+      <source src="video2.mp4">
+    </video>
+    <button onclick="nextPage()">Lanjutkan</button>
+  </div>
+</div>
+
+<!-- Halaman 4 -->
+<div class="page">
+  <div class="kolom">
+    <h2>Hampir satu tahun kita bersama</h2>
+    <p>Hampir satu tahun kita bersama. Banyak hal yang udah kita lewati dan semua itu jadi bagian dari cerita kita.</p>
+    <p>Aku gak tau ke depan bakal seperti apa, tapi satu hal yang aku tau, selama ini aku bahagia karena jalanin semuanya sama kamu.</p>
+    <p>Terima kasih udah ada, udah bertahan, dan udah jadi rumah buat hati aku.</p>
+    <button onclick="nextPage()">Lanjutkan</button>
+  </div>
+</div>
+
+<!-- Halaman 5 -->
+<div class="page">
+  <h2>Klik suratnya ❤️</h2>
+  <div class="envelope" id="envelope" onclick="openLetter()"></div>
+  <div class="kolom" id="letterKolom" style="display:none;">
+    <p>Dan juga kedepannya perjalanan kita nggak selalu mudah, aku harap kita tetap ingat alasan kenapa kita bisa sampai sejauh ini.</p>
+    <p>Jangan cepat menyerah satu sama lain. Karena selama kita masih saling menggenggam, aku yakin cerita kita masih panjang.</p>
+    <p><b>Aku sayang kamu ❤️</b></p>
+    <button onclick="nextPage()">Selesai</button>
+  </div>
+</div>
+
+<script>
+let pages=document.querySelectorAll(".page");
+let current=0;
+
+function startMusic(){
+  const audio = document.getElementById("bgMusic");
+  audio.volume = 0.5;
+  audio.play().catch(()=>{});
+  nextPage();
+}
+
+function nextPage(){
+  pages[current].classList.remove("active");
+  current++;
+  if(current<pages.length){
+    pages[current].classList.add("active");
+  }
+}
+
+function openLetter(){
+  let envelope=document.getElementById("envelope");
+  let letter=document.getElementById("letterKolom");
+  envelope.style.display="none";
+  letter.style.display="block";
+
+  for(let i=0;i<25;i++){
+    let elem=document.createElement("div");
+    elem.className=(i%2===0)?"flower":"heart";
+    elem.innerHTML=(i%2===0)?"🌸":"💖";
+    elem.style.left=Math.random()*100+"vw";
+    elem.style.animationDuration=(3+Math.random()*3)+"s";
+    document.body.appendChild(elem);
+  }
+}
+</script>
+
+</body>
+</html>
